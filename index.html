@@ -74,12 +74,12 @@
       top: 0;
       left: 0;
     }
-    
+
     /* Dat.gui styles */
     .dg.ac {
       z-index: 1 !important;
     }
-    
+
   </style>
 </head>
 <body>
@@ -90,14 +90,14 @@
     <a href="https://developers.google.com/ar/develop/web/getting-started#examples">examples</a>
   </span>
 </div>
-  
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script>
   <script src="https://google-ar.github.io/three.ar.js/third_party/three.js/VRControls.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three.ar.js@latest/dist/three.ar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.2/dat.gui.min.js"></script>
-  
+
   <script src="https://unpkg.com/three.meshline@1.0.3/src/THREE.MeshLine.js"></script>
-  
+
 <script id="fragmentShader" type="shader">
 precision mediump float;
 precision mediump int;
@@ -188,14 +188,14 @@ const keys = Object.keys(guiData);
 for (let i in keys) {
   gui.add(guiData, keys[i]);
 }
-  
+
 let touchOffsetInfo = { x: 0, y: 0};
 
   function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
   }
-  
-  
+
+
 let particles = [];
 class Particle {
   constructor(devicePos = new THREE.Vector3(0,0,0)) {
@@ -225,7 +225,7 @@ class Particle {
     this.cube.material.opacity = wasm.multiply(this.alpha, 0.00392156863);
   }
 }
-  
+
   function updateAllParticles(pos = new THREE.Vector3(0,0,0)) {
     if (drawing) {
       let p = new Particle(pos);
@@ -242,7 +242,7 @@ class Particle {
       }
     }
   }
-  
+
 // Drawing constants.
 var MINIMIM_POINT_DISTANCE = 0.001;
 var MINIMUM_STROKE_POINTS = 2;
@@ -268,7 +268,7 @@ var drawing = false;
 var stroke = [];
 var strokes = [];
 var strokeIndex = 0;
-  
+
 var dots = [];
 
 var brush;
@@ -341,7 +341,7 @@ function init() {
     stroke.length = 0;
     strokeIndex += 1;
   });
-  
+
   renderer.domElement.addEventListener('touchmove', function(event) {
     touchOffsetInfo = {
       x: event.changedTouches[0].pageX / document.body.clientWidth,
@@ -353,11 +353,11 @@ function init() {
     document.querySelector("#info").innerHTML = `${touchOffsetInfo.x} \n ${touchOffsetInfo.y}`
   });
 
-  
+
   var light = new THREE.PointLight( 0xff0000, 1, 100 );
   light.position.set( 0, 0, 0 );
   scene.add( light );
-  
+
   update();
 }
 
@@ -371,11 +371,11 @@ var getDrawPoint = (function() {
 
   // Create a scratch vector for generating the rotated forward vector.
   var rotatedForward = new THREE.Vector3();
-  
+
   // New touch-offset vectors as well: (added by Andrés Cuervo)
   var translatedHorizontal = new THREE.Vector3();
   var translatedVertical = new THREE.Vector3();
-  
+
   return function(out) {
     // Start with the camera position, which is equivalent to device pose.
     out.copy(camera.position);
@@ -384,7 +384,7 @@ var getDrawPoint = (function() {
     rotatedForward.copy(forward);
     rotatedForward.applyQuaternion(camera.quaternion);
     out.add(rotatedForward);
-    
+
     var horizontal = new THREE.Vector3(1, 0, ).multiplyScalar(touchOffsetInfo.x);
     var verttical = new THREE.Vector3(0, 1, 0).multiplyScalar(touchOffsetInfo.y);
     translatedHorizontal.copy(horizontal);
@@ -432,9 +432,9 @@ function getStroke()
     width: strokeWidth
   };
 }
-  
+
 const threeObjBaseScale = 0.0025
-  
+
 function makeAdot(strokeInfo) {
   // var geometry = new THREE.BoxGeometry( 1,1,1 );
   // var geometry = new THREE.SphereGeometry( 5, 12, 12 );
@@ -460,10 +460,10 @@ function makeAdot(strokeInfo) {
   // var material = new THREE.MeshDepthMaterial({
   //   wireframe: guiData.isWireframe
   // });
-  
+
   // material.color.set(new THREE.Color(0x2EAFAC));
   // material.color.setHex( 0x2EAFAC );
-  
+
   var threeObject = new THREE.Mesh( geometry, material );
   threeObject.position.set(
     strokeInfo.position.x, // + touchOffsetInfo.x,
@@ -471,7 +471,7 @@ function makeAdot(strokeInfo) {
     strokeInfo.position.z);
   // threeObject.rotation.set(90, 0, 45);
   const stroke = getStroke();
-  
+
   let velocityMult = 1;
   if (guiData.applyVelocityMult) {
     velocityMult = stroke.velocity.manhattanLength() * 100;
@@ -483,7 +483,7 @@ function makeAdot(strokeInfo) {
                         threeObjBaseScale * velocityMult);
   return threeObject;
 }
-  
+
 function processAllDots() {
   for (let i = 0; i < dots.length; ++i) {
     const currentDot = dots[i]
@@ -503,9 +503,9 @@ function processDraw() {
     dots.push(dot);
     scene.add(dot);
   }
-  
+
   // document.querySelector('#info').innerHTML = dots.length;
-  
+
   // NOTE: Commented this out to stop the original brush stroke drawing
   // TODO: turn this into a template, comment it out, and then delete from here!
   // Add the draw point to the current stroke.
@@ -548,7 +548,7 @@ function processDraw() {
 function processDrawBrush() {
   // Add the draw point to the current stroke.
   brushStroke.push(getStroke());
-  
+
 
   // Don't use positions if they aren't far enough away from the previous point.
   if(brushStroke.length < MINIMUM_BRUSH_POINTS) {
@@ -573,7 +573,7 @@ function processDrawBrush() {
 
   // Generate a new stroke and sets it to brush reticle
   brush = generateStroke(brushStroke);
-  
+
   // Add the brush reticle to the threejs scene for rendering
   scene.add(brush);
 }
@@ -836,7 +836,7 @@ function update() {
 
   // Update Brush Physics
   updatePhysics();
-  
+
   updateAllParticles(getStroke().position);
 
   // Check for shake to undo functionality
@@ -848,7 +848,7 @@ function update() {
   }
   // Uncomment to draw brush reticle
   // processDrawBrush();
-  
+
   // Process all the dots in the scene
   processAllDots();
 
