@@ -10,7 +10,7 @@
     },
     "scripts": {
         "start": "node start.js",
-        "build": "parcel build index.html --out-dir docs"
+        "build": "parcel build index.html --out-dir docs --public-url https://cwervo.github.io/wasm-ar-brush/"
     },
     "devDependencies": {
         "cssnano": "^4.0.5"

@@ -7,6 +7,6 @@ var r=require("./bundle-url").getBundleURL;function e(r){Array.isArray(r)||(r=[r
 },{"./bundle-url":"FrRc"}],"Q7em":[function(require,module,exports) {
 module.exports=function(t){return fetch(t).then(function(t){return WebAssembly.instantiateStreaming?WebAssembly.instantiateStreaming(t):t.arrayBuffer().then(function(t){return WebAssembly.instantiate(t)})}).then(function(t){return t.instance.exports})};
 },{}],0:[function(require,module,exports) {
-var b=require("Cqla");b.register("wasm",require("Q7em"));b.load([["math.08aa8710.wasm","z6L1"]]).then(function(){require("Focm");});
+var b=require("Cqla");b.register("wasm",require("Q7em"));b.load([["math.cf0c1a19.wasm","z6L1"]]).then(function(){require("Focm");});
 },{}]},{},[0], null)
-//# sourceMappingURL=/wasm-brush.e028cfcf.js.map
+//# sourceMappingURL=https://cwervo.github.io/wasm-ar-brush/wasm-brush.e028cfcf.js.map
