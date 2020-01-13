@@ -30,8 +30,8 @@ btn.onclick = e => {
 // document.body.appendChild(btn)
 
 var guiData = {
-  // isWireframe: false,
-  // applyVelocityMult: true,
+  isWireframe: false,
+  applyVelocityMult: true,
   drawSpheres: false
 };
 var gui = new dat.GUI();
@@ -79,7 +79,7 @@ class Particle {
 }
 
   function updateAllParticles(pos = new THREE.Vector3(0,0,0)) {
-    if (drawing) {
+      if (drawing & !guiData.drawSpheres) {
       let p = new Particle(pos);
       particles.push(p);
     }
